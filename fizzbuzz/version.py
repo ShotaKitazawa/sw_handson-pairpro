@@ -5,3 +5,6 @@ class Version():
         self.major = major
         self.minor = minor
         self.patch = patch
+
+    def __str__(self):
+        return str(self.major) + "." + str(self.minor) + "." + str(self.patch)

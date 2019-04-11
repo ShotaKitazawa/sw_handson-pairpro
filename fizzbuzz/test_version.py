@@ -9,10 +9,11 @@ def v():
     return version
 """
 
+
 class TestVersion():
 
     class Testどれかのフィールドが負だとエラーを返す:
-    
+
         @pytest.mark.do
         def test_バージョンのmajorフィールドが負だとエラーを返す(self):
             from version import Version
@@ -25,17 +26,15 @@ class TestVersion():
         @pytest.mark.do
         def test_バージョンのminorフィールドが負だとエラーを返す(self):
             from version import Version
-            flag = False
             try:
                 Version(1, -1, 1)
                 assert False
             except(Exception):
                 pass
-                
+
         @pytest.mark.do
         def test_バージョンのpatchフィールドが負だとエラーを返す(self):
             from version import Version
-            flag = False
             try:
                 Version(1, 1, -1)
                 assert False
@@ -44,5 +43,18 @@ class TestVersion():
 
     def test_オブジェクトが文字列表現を返す(self):
         from version import Version
-        v = Version(1,1,1)
-        assert type(v.__str__) == <class 'str'>
+        v = Version(1, 1, 1)
+        assert str(v) == '1.1.1'
+
+    class Testバージョンオブジェクトは透過性比較や大小比較ができる():
+        def test_Ver1_4_2_NQ_Ver2_1_0(self):
+            from version import Version
+            v1 = Version(1, 4, 2)
+            v2 = Version(2, 1, 0)
+            assert v1 != v2
+
+        def test_Ver10_3_5_EQ_Ver10_3_5(self):
+            from version import Version
+            v1 = Version(10, 3, 5)
+            v2 = Version(10, 3, 5)
+            assert v1 == v2
