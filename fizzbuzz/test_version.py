@@ -2,23 +2,6 @@ import pytest
 
 from version import Version
 
-
-def pytest_generate_tests(metafunc):
-    """
-    Parametrizing test methods through per-class configuration
-    http://pytest.org/latest-ja/example/parametrize.html#id5
-    """
-    try:
-        funcarglist = metafunc.cls.params[metafunc.function.__name__]
-    except AttributeError:
-        return
-    argnames = list(funcarglist[0])
-    metafunc.parametrize(
-        argnames,
-        [[funcargs[name] for name in argnames] for funcargs in funcarglist]
-    )
-
-
 class TestVersion():
 
     @pytest.mark.one
@@ -28,23 +11,47 @@ class TestVersion():
             try:
                 Version(-1, 1, 1)
                 assert False
-            except(Exception):
+            except(ValueError):
                 pass
 
         def test_バージョンのminorフィールドが負だとエラーを返す(self):
             try:
                 Version(1, -1, 1)
                 assert False
-            except(Exception):
+            except(ValueError):
                 pass
 
         def test_バージョンのpatchフィールドが負だとエラーを返す(self):
             try:
                 Version(1, 1, -1)
                 assert False
-            except(Exception):
+            except(ValueError):
                 pass
 
+    @pytest.mark.do
+    class Testどれかのフィールドがstringだとエラーを返す:
+
+        def test_バージョンのmajorフィールドがstringだとエラーを返す(self):
+            try:
+                Version("1",1,1)
+                assert False
+            except(TypeError):
+                pass
+
+        def test_バージョンのminorフィールドがstringだとエラーを返す(self):
+            try:
+                Version(1,"1",1)
+                assert False
+            except(TypeError):
+                pass
+
+        def test_バージョンのpatchフィールドがstringだとエラーを返す(self):
+            try:
+                Version(1,1,"1")
+                assert False
+            except(TypeError):
+                pass
+            
     @pytest.mark.two
     def test_オブジェクトが文字列表現を返す(self):
         assert str(Version(1, 1, 1)) == '1.1.1'

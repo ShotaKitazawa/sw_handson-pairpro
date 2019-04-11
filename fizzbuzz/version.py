@@ -1,7 +1,9 @@
 class Version():
     def __init__(self, major, minor, patch):
+        if not (isinstance(major, int) and isinstance(minor, int) and isinstance(patch, int)):
+            raise TypeError
         if major < 0 or minor < 0 or patch < 0:
-            raise Exception
+            raise ValueError
         self.major = major
         self.minor = minor
         self.patch = patch
