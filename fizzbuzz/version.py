@@ -21,10 +21,10 @@ class Version():
         return self.major > other.major or self.minor > other.minor or self.patch > other.patch
 
     def __le__(self, other):
-        return self == other or self.major > other.major or self.minor > other.minor or self.patch > other.patch
+        return not (self.major < other.major and self.minor < other.minor and self.patch < other.patch)
 
     def __gt__(self, other):
         return self.major < other.major or self.minor < other.minor or self.patch < other.patch
 
     def __ge__(self, other):
-        return self == other or self.major < other.major or self.minor < other.minor or self.patch < other.patch
+        return not (self.major > other.major or self.minor > other.minor or self.patch > other.patch)
