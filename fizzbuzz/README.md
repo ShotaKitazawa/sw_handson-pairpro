@@ -26,7 +26,7 @@
         - [x] バージョン 2.23.1 は バージョン 5.1.2 以上
         - [x] バージョン 10.3.5 は バージョン 10.3.5 以下
 
-# MEMO
+# Other
 
 ## テスト実行
 
@@ -44,7 +44,7 @@ $ python -m pytest test_version.py
 6. テストが通るまでリファクタリングを行う - Refactor
 7. 1-6を繰り返す
 
-## Other
+## Memo
 
 ```python
 class Version():

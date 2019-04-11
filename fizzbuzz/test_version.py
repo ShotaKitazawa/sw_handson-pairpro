@@ -13,7 +13,6 @@ def _field_check(major, minor, patch, err):
 
 class TestVersion():
 
-    @pytest.mark.one
     class Test各フィールドを評価():
 
         class Test各フィールドが負だとエラー():
@@ -37,21 +36,19 @@ class TestVersion():
             def test_バージョンのpatchフィールドが文字列だとエラー(self):
                 _field_check(1, 1, "1", TypeError)
 
-        class Test各フィールドが少数だとエラー():
-            def test_バージョンのmajorフィールドが少数だとエラー(self):
+        class Test各フィールドが小数だとエラー():
+            def test_バージョンのmajorフィールドが小数だとエラー(self):
                 _field_check(1.1, 1, 1, TypeError)
 
-            def test_バージョンのminorフィールドが少数だとエラー(self):
+            def test_バージョンのminorフィールドが小数だとエラー(self):
                 _field_check(1, 1.1, 1, TypeError)
 
-            def test_バージョンのpatchフィールドが少数だとエラー(self):
+            def test_バージョンのpatchフィールドが小数だとエラー(self):
                 _field_check(1, 1, 1.1, TypeError)
 
-    @pytest.mark.two
     def test_オブジェクトが文字列表現(self):
         assert str(Version(1, 1, 1)) == '1.1.1'
 
-    @pytest.mark.three
     class Testバージョンオブジェクトは透過性比較や大小比較ができる():
         def test_Ver1_4_2_NE_Ver2_1_0(self):
             assert Version(1, 4, 2) != Version(2, 1, 0)
