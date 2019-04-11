@@ -2,58 +2,53 @@ import pytest
 
 from version import Version
 
+
+def _field_check(major, minor, patch, err):
+    try:
+        Version(major, minor, patch)
+        assert False
+    except(err):
+        pass
+
+
 class TestVersion():
 
     @pytest.mark.one
-    class Testどれかのフィールドが負だとエラーを返す:
+    class Test各フィールドを評価():
 
-        def test_バージョンのmajorフィールドが負だとエラーを返す(self):
-            try:
-                Version(-1, 1, 1)
-                assert False
-            except(ValueError):
-                pass
+        class Test各フィールドが負だとエラー():
 
-        def test_バージョンのminorフィールドが負だとエラーを返す(self):
-            try:
-                Version(1, -1, 1)
-                assert False
-            except(ValueError):
-                pass
+            def test_バージョンのmajorフィールドが負だとエラー(self):
+                _field_check(-1, 1, 1, ValueError)
 
-        def test_バージョンのpatchフィールドが負だとエラーを返す(self):
-            try:
-                Version(1, 1, -1)
-                assert False
-            except(ValueError):
-                pass
+            def test_バージョンのminorフィールドが負だとエラー(self):
+                _field_check(1, -1, 1, ValueError)
 
-    @pytest.mark.do
-    class Testどれかのフィールドがstringだとエラーを返す:
+            def test_バージョンのpatchフィールドが負だとエラー(self):
+                _field_check(1, 1, -1, ValueError)
 
-        def test_バージョンのmajorフィールドがstringだとエラーを返す(self):
-            try:
-                Version("1",1,1)
-                assert False
-            except(TypeError):
-                pass
+        class Test各フィールドが文字列だとエラー():
+            def test_バージョンのmajorフィールドが文字列だとエラー(self):
+                _field_check("1", 1, 1, TypeError)
 
-        def test_バージョンのminorフィールドがstringだとエラーを返す(self):
-            try:
-                Version(1,"1",1)
-                assert False
-            except(TypeError):
-                pass
+            def test_バージョンのminorフィールドが文字列だとエラー(self):
+                _field_check(1, "1", 1, TypeError)
 
-        def test_バージョンのpatchフィールドがstringだとエラーを返す(self):
-            try:
-                Version(1,1,"1")
-                assert False
-            except(TypeError):
-                pass
-            
+            def test_バージョンのpatchフィールドが文字列だとエラー(self):
+                _field_check(1, 1, "1", TypeError)
+
+        class Test各フィールドが少数だとエラー():
+            def test_バージョンのmajorフィールドが少数だとエラー(self):
+                _field_check(1.1, 1, 1, TypeError)
+
+            def test_バージョンのminorフィールドが少数だとエラー(self):
+                _field_check(1, 1.1, 1, TypeError)
+
+            def test_バージョンのpatchフィールドが少数だとエラー(self):
+                _field_check(1, 1, 1.1, TypeError)
+
     @pytest.mark.two
-    def test_オブジェクトが文字列表現を返す(self):
+    def test_オブジェクトが文字列表現(self):
         assert str(Version(1, 1, 1)) == '1.1.1'
 
     @pytest.mark.three
